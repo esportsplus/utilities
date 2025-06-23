@@ -39,7 +39,7 @@ const isString = (value: unknown): value is string => {
 };
 
 const sleep = (ms: number) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, Math.max(ms, 0)));
 };
 
 const truncate = {
