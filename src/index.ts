@@ -38,8 +38,12 @@ const isString = (value: unknown): value is string => {
     return typeof value === 'string';
 };
 
-const sleep = (ms: number) => {
-    return new Promise(resolve => setTimeout(resolve, Math.max(ms, 0)));
+const sleep = async (ms?: number) => {
+    if (!ms) {
+        return;
+    }
+
+    return new Promise(resolve => setTimeout(resolve, ms));
 };
 
 const truncate = {
