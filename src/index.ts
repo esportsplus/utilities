@@ -9,6 +9,10 @@ const bps = (amount: bigint | number | string, bps: number, max?: bigint | numbe
 };
 
 const chunk = <T>(items: T[], size: number) => {
+    if (items.length <= size) {
+        return [items];
+    }
+
     return Array.from(
         { length: Math.ceil(items.length / size) },
         (_, i) => items.slice(i * size, i * size + size)
