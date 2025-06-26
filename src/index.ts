@@ -9,8 +9,9 @@ const bps = (amount: bigint | number | string, bps: number, max?: bigint | numbe
 };
 
 const chunk = <T>(items: T[], size: number) => {
-    return Array.from({ length: Math.ceil(items.length / size) }, (_, i) =>
-        items.slice(i * size, i * size + size)
+    return Array.from(
+        { length: Math.ceil(items.length / size) },
+        (_, i) => items.slice(i * size, i * size + size)
     );
 };
 
@@ -36,6 +37,56 @@ const isObject = (value: unknown): value is Record<PropertyKey, unknown> => {
 
 const isString = (value: unknown): value is string => {
     return typeof value === 'string';
+};
+
+const request = {
+    get: async function<T>(url: string, init: RequestInit & { search?: Record<string, string> } = {}): Promise<T | null> {
+        init.cache ??= 'no-cache';
+        init.headers ??= {};
+        init.method ??= 'GET';
+        init.redirect ??= 'follow';
+
+        if (isObject(init.headers)) {
+            init.headers['Content-Type'] ??= 'application/json';
+        }
+
+        let input = new URL(url);
+
+        input.search = new URLSearchParams(init?.search || '').toString();
+
+        return await fetch(input.toString(), init)
+            .then(r => {
+                if (isObject(init.headers) && init.headers['Content-Type'] === 'application/json') {
+                    return r.json();
+                }
+
+                return r.text();
+            })
+            .catch(() => null);
+    },
+    post: async function<T>(url: string, init: RequestInit = {}): Promise<T | null> {
+        init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
+        init.cache ??= 'no-cache';
+        init.headers ??= {};
+        init.method ??= 'POST';
+        init.mode ??= 'cors';
+        init.redirect ??= 'follow';
+        init.referrerPolicy ??= 'no-referrer';
+
+        if (isObject(init.headers)) {
+            init.headers['Content-Type'] ??= 'application/json';
+        }
+
+        return await fetch(url, init)
+            .then(r => {
+                if (isObject(init.headers) && init.headers['Content-Type'] === 'application/json') {
+                    return r.json();
+                }
+
+                return r.text();
+            })
+            .catch(() => null);
+    }
 };
 
 const sleep = async (ms?: number) => {
@@ -64,6 +115,7 @@ export {
     chunk,
     defineProperty,
     isArray, isFunction, isInstanceOf, isNumber, isObject, isString,
+    request,
     sleep,
     truncate
 };
