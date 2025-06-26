@@ -39,57 +39,37 @@ const isString = (value: unknown): value is string => {
     return typeof value === 'string';
 };
 
-const request = {
-    get: async function<T>(url: string, init: RequestInit = {}): Promise<T | null> {
-        init.cache ??= 'no-cache';
-        init.headers ??= {};
-        init.method ??= 'GET';
-        init.redirect ??= 'follow';
+const request = async function<T>(url: string, init: RequestInit = {}): Promise<T> {
+    init.cache ??= 'no-cache';
+    init.headers ??= {};
+    init.method = (init.method || 'GET').toUpperCase();
+    init.redirect ??= 'follow';
 
-        if (isObject(init.headers)) {
-            init.headers['Content-Type'] ??= 'application/json';
-        }
-
-        return await fetch(url, init)
-            .then(r => {
-                if (isObject(init.headers) && init.headers['Content-Type'] === 'application/json') {
-                    return r.json();
-                }
-
-                return r.text();
-            })
-            .catch(() => null);
-    },
-    post: async function<T>(url: string, init: RequestInit = {}): Promise<T | null> {
-        init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
-        init.cache ??= 'no-cache';
-        init.headers ??= {};
-        init.method ??= 'POST';
-        init.mode ??= 'cors';
-        init.redirect ??= 'follow';
-        init.referrerPolicy ??= 'no-referrer';
-
-        if (isObject(init.headers)) {
-            init.headers['Content-Type'] ??= 'application/json';
-        }
-
-        return await fetch(url, init)
-            .then(r => {
-                if (isObject(init.headers) && init.headers['Content-Type'] === 'application/json') {
-                    return r.json();
-                }
-
-                return r.text();
-            })
-            .catch(() => null);
-    },
-    url: (url: string, search?: Record<string, string>) => {
-        let input = new URL(url);
-
-        input.search = new URLSearchParams(search || '').toString();
-
-        return input.toString();
+    if (isObject(init.headers)) {
+        init.headers['Content-Type'] ??= 'application/json';
     }
+
+    if (init.method === 'POST') {
+        init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
+        init.mode ??= 'cors';
+        init.referrerPolicy ??= 'no-referrer';
+    }
+
+    return await fetch(url, init).then(r => {
+        if (isObject(init.headers) && init.headers['Content-Type'] === 'application/json') {
+            return r.json();
+        }
+
+        return r.text();
+    });
+};
+
+request.url = (url: string, search?: Record<string, string>) => {
+    let input = new URL(url);
+
+    input.search = new URLSearchParams(search || '').toString();
+
+    return input.toString();
 };
 
 const sleep = async (ms?: number) => {
