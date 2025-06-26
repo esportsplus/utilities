@@ -106,3 +106,4 @@ export {
     sleep,
     truncate
 };
+export type * from './types';
