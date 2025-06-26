@@ -40,7 +40,7 @@ const isString = (value: unknown): value is string => {
 };
 
 const request = {
-    get: async function<T>(url: string, init: RequestInit & { search?: Record<string, string> } = {}): Promise<T | null> {
+    get: async function<T>(url: string, init: RequestInit = {}): Promise<T | null> {
         init.cache ??= 'no-cache';
         init.headers ??= {};
         init.method ??= 'GET';
@@ -50,11 +50,7 @@ const request = {
             init.headers['Content-Type'] ??= 'application/json';
         }
 
-        let input = new URL(url);
-
-        input.search = new URLSearchParams(init?.search || '').toString();
-
-        return await fetch(input.toString(), init)
+        return await fetch(url, init)
             .then(r => {
                 if (isObject(init.headers) && init.headers['Content-Type'] === 'application/json') {
                     return r.json();
@@ -86,6 +82,13 @@ const request = {
                 return r.text();
             })
             .catch(() => null);
+    },
+    url: (url: string, search?: Record<string, string>) => {
+        let input = new URL(url);
+
+        input.search = new URLSearchParams(search || '').toString();
+
+        return input.toString();
     }
 };
 
