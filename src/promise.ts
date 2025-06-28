@@ -142,7 +142,7 @@ host.race = async <T extends readonly unknown[] | []>(contenders: T, abortSignal
    return await result as Promise<Awaited<T[number]>>;
 };
 
-host.retry = async (fn: <T>() => Promise<T>, retries: number, sleepMS: number = 0) => {
+host.retry = async <T>(fn: () => Promise<T>, retries: number, sleepMS: number = 0): Promise<T | null> => {
     while (retries) {
         try {
             return await fn();
