@@ -1,5 +1,6 @@
 // @see @solana/promises
 import { isObject } from '.';
+import sleep from './sleep';
 
 
 type Deferred = Readonly<{
@@ -139,6 +140,20 @@ host.race = async <T extends readonly unknown[] | []>(contenders: T, abortSignal
        });
 
    return await result as Promise<Awaited<T[number]>>;
+};
+
+host.retry = async (fn: <T>() => Promise<T>, retries: number, sleepMS: number = 0) => {
+    while (retries) {
+        try {
+            return await fn();
+        }
+        catch {
+            retries--;
+            await sleep(sleepMS);
+        }
+    }
+
+    return null;
 };
 
 
