@@ -142,13 +142,24 @@ host.race = async <T extends readonly unknown[] | []>(contenders: T, abortSignal
    return await result as Promise<Awaited<T[number]>>;
 };
 
-host.retry = async <T>(fn: () => Promise<T>, { delay, retries }: { delay: number, retries: number }): Promise<T | null> => {
-    while (retries) {
+host.retry = async <T>(fn: () => Promise<T>, config: { delay: number, retries: number } | number): Promise<T | null> => {
+    let attempts = 1,
+        delay = 0;
+
+    if (typeof config === 'number') {
+        delay = config;
+    }
+    else {
+        attempts = config.retries + 1;
+        delay = config.delay;
+    }
+
+    while (attempts) {
         try {
             return await fn();
         }
         catch {
-            retries--;
+            attempts--;
             await sleep(delay);
         }
     }
