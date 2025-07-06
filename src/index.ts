@@ -31,4 +31,3 @@ export { default as request } from './request';
 export { default as sleep } from './sleep';
 export { default as truncate } from './truncate';
 export type * from './types';
-export type * from '@esportsplus/typescript';
