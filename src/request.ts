@@ -10,12 +10,12 @@ type Init = Omit<RequestInit, 'body' | 'method'> & {
         method: 'POST' | 'PUT' | 'PATCH',
     } | {
         body?: RequestInit['body'],
-        method: 'GET' | 'DELETE',
+        method?: 'GET' | 'DELETE',
     }
 );
 
 
-const request = async function<T>(url: string, init: Init = { method: 'GET' }): Promise<T> {
+const request = async function<T>(url: string, init: Init = {}): Promise<T> {
     init.cache ??= 'no-cache';
     init.headers ??= {};
     init.method ??= 'GET';
