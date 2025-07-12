@@ -1,7 +1,8 @@
 import { isObject } from '.';
 
 
-const request = async function<T>(url: string, init: RequestInit = {}): Promise<T> {
+const request = async function<T>(url: string, init: (RequestInit & { body?: Record<string, any> | string | null }) = {}): Promise<T> {
+    init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
     init.cache ??= 'no-cache';
     init.headers ??= {};
     init.method = (init.method || 'GET').toUpperCase();
@@ -12,7 +13,6 @@ const request = async function<T>(url: string, init: RequestInit = {}): Promise<
     }
 
     if (init.method === 'POST') {
-        init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
         init.mode ??= 'cors';
         init.referrerPolicy ??= 'no-referrer';
     }
