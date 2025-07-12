@@ -1,23 +1,38 @@
 import { isObject } from '.';
 
 
-const request = async function<T>(url: string, init: (RequestInit & { body?: Record<string, any> | string | null }) = {}): Promise<T> {
-    init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
+type Init = Omit<RequestInit, 'body' | 'method'> & {
+    method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+} & (
+    {
+        body?: RequestInit['body'] | Record<string, any> | string | null,
+        method: 'POST' | 'PUT' | 'PATCH',
+    } | {
+        body?: RequestInit['body'],
+        method: 'GET' | 'DELETE',
+    }
+);
+
+
+const request = async function<T>(url: string, init: Init = { method: 'GET' }): Promise<T> {
     init.cache ??= 'no-cache';
     init.headers ??= {};
-    init.method = (init.method || 'GET').toUpperCase();
+    init.method ??= 'GET';
     init.redirect ??= 'follow';
 
     if (isObject(init.headers)) {
         init.headers['Content-Type'] ??= 'application/json';
     }
 
-    if (init.method === 'POST') {
+    let method = init.method;
+
+    if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+        init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
         init.mode ??= 'cors';
         init.referrerPolicy ??= 'no-referrer';
     }
 
-    return await fetch(url, init).then(r => {
+    return await fetch(url, init as RequestInit).then(r => {
         if (isObject(init.headers) && init.headers['Content-Type'] === 'application/json') {
             return r.json();
         }
