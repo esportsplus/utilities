@@ -27,6 +27,7 @@ export { defineProperty, isArray, isFunction, isInstanceOf, isNumber, isObject, 
 export { default as bps } from './bps';
 export { default as chunk } from './chunk';
 export { default as number } from './number';
+export { default as pick } from './pick';
 export { default as promise } from './promise';
 export { default as request } from './request';
 export { default as sleep } from './sleep';
