@@ -2,7 +2,7 @@ type BIPS = number;
 
 type Brand<T, B extends string> = T & { __brand: B };
 
-type DeepReadonly<T> = T extends (...args: any[]) => any
+type DeepReadonly<T> = T extends (...args: unknown[]) => unknown
     ? T
     : T extends Array<infer R>
         ? ReadonlyArray<DeepReadonly<R>>
@@ -10,21 +10,19 @@ type DeepReadonly<T> = T extends (...args: any[]) => any
             ? { readonly [K in keyof T]: DeepReadonly<T[K]> }
             : T;
 
-type Function = (...args: unknown[]) => Promise<unknown> | unknown;
+type Function = (...args: unknown[]) => (Promise<unknown> | unknown);
 
 type NeverAsync<T> =
     T extends Promise<unknown>
         ? never
-        : T extends (...args: unknown[]) => unknown
-            ? NeverAsync<ReturnType<T>> extends never
-                ? never
-                : T
+        : T extends (...args: unknown[]) => infer R
+            ? NeverAsync<R>
             : T;
 
 type NeverFunction<T> =
     T extends Promise<unknown>
         ? never
-        : T extends (...args: unknown[]) => unknown
+        : T extends Function
             ? never
             : T;
 
