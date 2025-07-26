@@ -1,6 +1,11 @@
 import { isArray } from '.';
 
-type Arrayify<T> = T extends readonly unknown[] ? T : T[];
+type Arrayify<T> = T extends undefined | null
+    ? NonNullable<T>[]
+    : T extends readonly unknown[]
+        ? T
+        : T[];
+
 
 export default <T>(input: T): Arrayify<T> => {
     if (input == undefined) {
