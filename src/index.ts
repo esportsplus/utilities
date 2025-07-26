@@ -22,8 +22,11 @@ const isString = (value: unknown): value is string => {
     return typeof value === 'string';
 };
 
+const noop = (() => {}) as Readonly<VoidFunction>;
 
-export { defineProperty, isArray, isFunction, isInstanceOf, isNumber, isObject, isString };
+
+export { defineProperty, isArray, isFunction, isInstanceOf, isNumber, isObject, isString, noop };
+export { default as arrayify } from './arrayify';
 export { default as bps } from './bps';
 export { default as chunk } from './chunk';
 export { default as number } from './number';
