@@ -26,7 +26,6 @@ const noop = (() => {}) as Readonly<VoidFunction>;
 
 
 export { defineProperty, isArray, isFunction, isInstanceOf, isNumber, isObject, isString, noop };
-export { default as arrayify } from './arrayify';
 export { default as bps } from './bps';
 export { default as chunk } from './chunk';
 export { default as number } from './number';
@@ -35,5 +34,6 @@ export { default as pick } from './pick';
 export { default as promise } from './promise';
 export { default as request } from './request';
 export { default as sleep } from './sleep';
+export { default as toArray } from './toArray';
 export { default as truncate } from './truncate';
 export type * from './types';
