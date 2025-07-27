@@ -1,16 +1,31 @@
-export default <T extends Record<PropertyKey, unknown>, K extends keyof T>(data: T, omit: K[]) => {
-    let keys = Object.keys(data),
-        response: Record<PropertyKey, unknown> = {};
+import { isArray } from '.';
 
-    for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
 
-        if (omit.indexOf(key as K) !== -1) {
+type Response<T extends Record<PropertyKey, unknown>, K extends keyof T> = T extends unknown[]
+    ? Omit<T, K>[]
+    : Omit<T, K>;
+
+
+export default function omit<T extends Record<PropertyKey, unknown>, K extends keyof T>(data: T, keys: K[]): Response<T, K> {
+    if (isArray(data)) {
+        let response = [];
+
+        for (let i = 0, n = data.length; i < n; i++) {
+            response.push( omit(data[i], keys) );
+        }
+
+        return response as Response<T, K>;
+    }
+
+    let response: Record<PropertyKey, unknown> = {};
+
+    for (let key in data) {
+        if (keys.indexOf(key as any as K) !== -1) {
             continue;
         }
 
         response[key] = data[key];
     }
 
-    return response as Omit<T, K>;
+    return response as Response<T, K>;
 };

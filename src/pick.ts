@@ -1,11 +1,29 @@
-export default <T extends Record<PropertyKey, unknown>, K extends keyof T>(data: T, pick: K[]) => {
-    let response = {} as Pick<T, K>;
+import { isArray } from '.';
 
-    for (let i = 0; i < pick.length; i++) {
-        let key = pick[i];
+
+type Response<T extends Record<PropertyKey, unknown>, K extends keyof T> = T extends unknown[]
+    ? Pick<T, K>[]
+    : Pick<T, K>;
+
+
+export default function pick<T extends Record<PropertyKey, unknown>, K extends keyof T>(data: T | T[], keys: K[]): Response<T, K> {
+    if (isArray(data)) {
+        let response = [];
+
+        for (let i = 0, n = data.length; i < n; i++) {
+            response.push( pick(data[i], keys) );
+        }
+
+        return response as Response<T, K>;
+    }
+
+    let response: Record<PropertyKey, unknown> = {};
+
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
 
         response[key] = data[key];
     }
 
-    return response;
+    return response as Response<T, K>;
 };
