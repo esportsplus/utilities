@@ -4,7 +4,7 @@ import { isArray } from '.';
 type Data<T> = T | T[] | ReadonlyArray<T>;
 
 type Response<T, K extends keyof T> =
-    T extends unknown[] | ReadonlyArray<any>
+    T extends unknown[] | ReadonlyArray<unknown>
         ? Array<Omit<T[number], K>>
         : Omit<T, K>;
 
@@ -17,20 +17,16 @@ export default function omit<T extends Record<PropertyKey, unknown>, K extends k
         let response = [];
 
         for (let i = 0, n = data.length; i < n; i++) {
-            response.push(omit(data[i], keys));
+            response.push( omit(data[i], keys) );
         }
 
         return response as Response<T, K>;
     }
 
-    let response: Record<PropertyKey, unknown> = {};
+    let response: Record<PropertyKey, unknown> = { ...data };
 
-    for (let key in data) {
-        if (keys.indexOf(key as any as K) !== -1) {
-            continue;
-        }
-
-        response[key] = data[key];
+    for (let i = 0; i < keys.length; i++) {
+        delete response[keys[i]];
     }
 
     return response as Response<T, K>;

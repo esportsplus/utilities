@@ -4,7 +4,7 @@ import { isArray } from '.';
 type Data<T> = T | T[] | ReadonlyArray<T>;
 
 type Response<T, K extends keyof T> =
-    T extends any[] | ReadonlyArray<any>
+    T extends any[] | ReadonlyArray<unknown>
         ? Array<Pick<T[number], K>>
         : Pick<T, K>;
 
@@ -17,7 +17,7 @@ export default function pick<T extends Record<PropertyKey, unknown>, K extends k
         let response = [];
 
         for (let i = 0, n = data.length; i < n; i++) {
-            response.push(pick(data[i], keys));
+            response.push( pick(data[i], keys) );
         }
 
         return response as Response<T, K>;
