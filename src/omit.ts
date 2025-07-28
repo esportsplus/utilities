@@ -6,7 +6,7 @@ type Response<T extends Record<PropertyKey, unknown>, K extends keyof T> = T ext
     : Omit<T, K>;
 
 
-export default function omit<T extends Record<PropertyKey, unknown>, K extends keyof T>(data: T, keys: K[]): Response<T, K> {
+export default function omit<T extends Record<PropertyKey, unknown>, K extends keyof T>(data: T | T[], keys: K[]): Response<T, K> {
     if (isArray(data)) {
         let response = [];
 
