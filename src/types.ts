@@ -30,6 +30,8 @@ type Prettify<T> = {
     [K in keyof T]: T[K];
 } & {};
 
+type Primitive = bigint | boolean | null | number | string | symbol | undefined;
+
 type UnionRecord<U, V extends Record<string, unknown>> = Prettify<U & { [K in keyof U]?: undefined } & V>;
 
 
@@ -39,5 +41,6 @@ export type {
     Function,
     NeverAsync, NeverFunction,
     Prettify,
+    Primitive,
     UnionRecord
 };
