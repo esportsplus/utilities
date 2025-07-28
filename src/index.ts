@@ -28,6 +28,7 @@ const noop = (() => {}) as Readonly<VoidFunction>;
 export { defineProperty, isArray, isFunction, isInstanceOf, isNumber, isObject, isString, noop };
 export { default as bps } from './bps';
 export { default as chunk } from './chunk';
+export { EMPTY_ARRAY, EMPTY_OBJECT } from './constants';
 export { default as number } from './number';
 export { default as omit } from './omit';
 export { default as pick } from './pick';
