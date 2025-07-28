@@ -26,7 +26,7 @@ export default function omit<T extends Record<PropertyKey, unknown>, K extends k
     let response: Record<PropertyKey, unknown> = {};
 
     for (let key in data) {
-        if ((keys as readonly K[]).indexOf(key as any as K) !== -1) {
+        if (keys.indexOf(key as any as K) !== -1) {
             continue;
         }
 
