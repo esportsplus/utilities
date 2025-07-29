@@ -1,8 +1,6 @@
 import { isArray } from '.';
 
 
-type Data<T> = T | T[] | ReadonlyArray<T>;
-
 type Response<T, K extends keyof T> =
     T extends unknown[] | ReadonlyArray<unknown>
         ? Array<Omit<T[number], K>>
@@ -10,24 +8,28 @@ type Response<T, K extends keyof T> =
 
 
 export default function omit<T extends Record<PropertyKey, unknown>, K extends keyof T>(
-    data: Data<T | Readonly<T>>,
+    data: T | Readonly<T> | T[] | ReadonlyArray<T>,
     keys: readonly K[]
 ): Response<T, K> {
     if (isArray(data)) {
-        let response = [];
+        let rows = [];
 
         for (let i = 0, n = data.length; i < n; i++) {
-            response.push( omit(data[i], keys) );
+            let row = omit(data[i], keys);
+
+            if (Object.keys(row).length) {
+                rows.push(row);
+            }
         }
 
-        return response as Response<T, K>;
+        return rows as Response<T, K>;
     }
 
-    let response: Record<PropertyKey, unknown> = { ...data };
+    let row: Record<PropertyKey, unknown> = { ...data };
 
     for (let i = 0; i < keys.length; i++) {
-        delete response[keys[i]];
+        delete row[keys[i]];
     }
 
-    return response as Response<T, K>;
+    return row as Response<T, K>;
 }
