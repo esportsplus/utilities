@@ -6,6 +6,10 @@ const { defineProperty } = Object;
 
 const { isArray } = Array;
 
+const isAsyncFunction = (value: unknown): value is ((...args: any[]) => Promise<any>) => {
+    return type(value) === '[object AsyncFunction]';
+}
+
 const isDate = (val: unknown): val is Date => {
     return type(val) === '[object Date]';
 }
@@ -59,7 +63,7 @@ const noop = (() => {}) as Readonly<VoidFunction>;
 
 export {
     defineProperty,
-    isArray, isDate, isFunction, isInstanceOf, isMap, isNumber, isObject, isPromise, isRegExp, isSet, isString, isSymbol,
+    isArray, isAsyncFunction, isDate, isFunction, isInstanceOf, isMap, isNumber, isObject, isPromise, isRegExp, isSet, isString, isSymbol,
     noop
 };
 export { default as bps } from './bps';
