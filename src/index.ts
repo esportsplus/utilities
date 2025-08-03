@@ -35,11 +35,7 @@ const isObject = (value: unknown): value is Record<PropertyKey, unknown> => {
 };
 
 const isPromise = <T = any>(val: unknown): val is Promise<T> => {
-    return (
-        (isObject(val) || isFunction(val)) &&
-        isFunction((val as any).then) &&
-        isFunction((val as any).catch)
-    )
+    return val instanceof Promise;
 }
 
 const isSet = (val: unknown): val is Set<any> => {
