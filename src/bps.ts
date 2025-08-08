@@ -24,7 +24,7 @@ function bps(amount: bigint | number | string, bps: bigint | number | string): b
     amount = BigInt(amount) * bps / 10_000n;
 
     return Number(amount) / PRECISION_FACTOR;
-};
+}
 
 
 export default bps;

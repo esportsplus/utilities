@@ -3,7 +3,7 @@ import { isArray } from '.';
 
 type Response<T, K extends keyof T> =
     T extends unknown[] | ReadonlyArray<unknown>
-        ? Array<Omit<T[number], K>>
+        ? Omit<T[number], K>[]
         : Omit<T, K>;
 
 
@@ -22,7 +22,7 @@ export default function omit<T extends Record<PropertyKey, unknown>, K extends k
             }
         }
 
-        return rows as Response<T, K>;
+        return rows as any as Response<T, K>;
     }
 
     let row: Record<PropertyKey, unknown> = { ...data };
@@ -32,4 +32,4 @@ export default function omit<T extends Record<PropertyKey, unknown>, K extends k
     }
 
     return row as Response<T, K>;
-}
+};

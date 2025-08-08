@@ -8,11 +8,11 @@ const { isArray } = Array;
 
 const isAsyncFunction = (value: unknown): value is ((...args: any[]) => Promise<any>) => {
     return type(value) === '[object AsyncFunction]';
-}
+};
 
 const isDate = (val: unknown): val is Date => {
     return type(val) === '[object Date]';
-}
+};
 
 const isFunction = (value: unknown): value is Function => {
     return typeof value === 'function';
@@ -24,11 +24,11 @@ const isInstanceOf = <T>(instance: unknown, match: new (...args: any) => T): ins
 
 const isMap = (val: unknown): val is Map<any, any> => {
     return type(val) === '[object Map]';
-}
+};
 
 const isNumber = (value: any): value is number => {
     return !isNaN(value);
-}
+};
 
 const isObject = (value: unknown): value is Record<PropertyKey, unknown> => {
     return typeof value === 'object' && value !== null && value.constructor === Object;
@@ -36,23 +36,23 @@ const isObject = (value: unknown): value is Record<PropertyKey, unknown> => {
 
 const isPromise = <T = any>(val: unknown): val is Promise<T> => {
     return val instanceof Promise;
-}
+};
 
 const isSet = (val: unknown): val is Set<any> => {
     return type(val) === '[object Set]';
-}
+};
 
 const isString = (value: unknown): value is string => {
     return typeof value === 'string';
-}
+};
 
 const isRegExp = (val: unknown): val is RegExp => {
     return type(val) === '[object RegExp]';
-}
+};
 
 const isSymbol = (val: unknown): val is symbol => {
     return typeof val === 'symbol';
-}
+};
 
 const noop = (() => {}) as Readonly<VoidFunction>;
 

@@ -3,7 +3,7 @@ import { isArray } from '.';
 
 type Response<T, K extends keyof T> =
     T extends any[] | ReadonlyArray<unknown>
-        ? Array<Pick<T[number], K>>
+        ? Pick<T[number], K>[]
         : Pick<T, K>;
 
 
@@ -22,7 +22,7 @@ export default function pick<T extends Record<PropertyKey, unknown>, K extends k
             }
         }
 
-        return rows as Response<T, K>;
+        return rows as any as Response<T, K>;
     }
 
     let row: Record<PropertyKey, unknown> = {};
