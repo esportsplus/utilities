@@ -71,6 +71,7 @@ export { default as pick } from './pick';
 export { default as promise } from './promise';
 export { default as request } from './request';
 export { default as sleep } from './sleep';
+export { default as slugify } from './slugify';
 export { default as toArray } from './toArray';
 export { default as truncate } from './truncate';
 export type * from './types';
