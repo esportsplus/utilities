@@ -7,10 +7,10 @@ type Init = Omit<RequestInit, 'body' | 'method'> & {
 } & (
     {
         body?: RequestInit['body'] | Record<string, any> | string | null,
-        method: 'POST' | 'PUT' | 'PATCH',
+        method: 'DELETE' | 'POST' | 'PUT' | 'PATCH',
     } | {
         body?: RequestInit['body'],
-        method?: 'GET' | 'DELETE',
+        method?: 'GET'
     }
 );
 
@@ -27,7 +27,7 @@ const request = async function<T>(url: string, init: Init = {}): Promise<T> {
 
     let method = init.method;
 
-    if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
+    if (method !== 'GET') {
         init.body = isObject(init.body) ? JSON.stringify(init.body) : init.body;
         init.mode ??= 'cors';
         init.referrerPolicy ??= 'no-referrer';
