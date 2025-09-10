@@ -1,4 +1,4 @@
-type Amount = { display: number | string } | { raw: bigint | number | string };
+import { Amount, BIPS } from './types';
 
 
 const PRECISION_FACTOR = 1_000_000_000;
@@ -31,18 +31,18 @@ function bps(amount: bigint | number | string, bps: bigint | number | string): b
 
 bps.toDisplay = (amount: Amount) => {
     if ('display' in amount) {
-        return amount.display;
+        return Number(amount.display);
     }
 
     return (Number(amount.raw) / 100);
 };
 
-bps.toRaw = (amount: Amount) => {
+bps.toRaw = (amount: Amount): BIPS => {
     if ('raw' in amount) {
-        return amount.raw;
+        return Number(amount.raw) as BIPS;
     }
 
-    return Math.min(Number(amount.display) * 100, 10_000);
+    return Math.min(Number(amount.display) * 100, 10_000) as BIPS;
 };
 
 

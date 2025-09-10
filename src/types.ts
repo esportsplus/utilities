@@ -1,4 +1,6 @@
-type BIPS = number;
+type Amount = { display: number | string } | { raw: bigint | number | string };
+
+type BIPS = Brand<number, 'BIPS'>;
 
 type Brand<T, B extends string> = T & { __brand: B };
 
@@ -36,6 +38,7 @@ type UnionRecord<U, V extends Record<string, unknown>> = Prettify<U & { [K in ke
 
 
 export type {
+    Amount,
     BIPS, Brand,
     DeepReadonly,
     Function,
