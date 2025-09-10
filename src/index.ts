@@ -54,7 +54,7 @@ const isSymbol = (val: unknown): val is symbol => {
     return typeof val === 'symbol';
 };
 
-const noop = (() => {}) as Readonly<VoidFunction>;
+const noop = (() => {}) as VoidFunction;
 
 
 export {
