@@ -74,4 +74,5 @@ export { default as sleep } from './sleep';
 export { default as slugify } from './slugify';
 export { default as toArray } from './toArray';
 export { default as truncate } from './truncate';
+export * from './json';
 export type * from './types';
