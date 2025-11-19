@@ -63,8 +63,10 @@ export {
     noop
 };
 export { default as bps } from './bps';
+export { default as camelCase } from './camelCase';
 export { default as chunk } from './chunk';
 export { EMPTY_ARRAY, EMPTY_OBJECT } from './constants';
+export { default as debounce } from './debounce';
 export { default as number } from './number';
 export { default as omit } from './omit';
 export { default as pick } from './pick';
