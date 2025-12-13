@@ -27,7 +27,7 @@ export default function pick<T extends Record<PropertyKey, unknown>, K extends k
 
     let row: Record<PropertyKey, unknown> = {};
 
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 0, n = keys.length; i < n; i++) {
         let key = keys[i];
 
         if (key in data) {

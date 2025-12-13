@@ -1,8 +1,8 @@
-export default (fn: VoidFunction, delay: number) => {
+export default <T extends (...args: any[]) => void>(fn: T, delay: number) => {
     let timer: ReturnType<typeof setTimeout>;
 
-    return () => {
+    return (...args: Parameters<T>) => {
         clearTimeout(timer);
-        timer = setTimeout(fn, delay);
+        timer = setTimeout(() => fn(...args), delay);
     };
 };

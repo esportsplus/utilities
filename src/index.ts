@@ -26,8 +26,8 @@ const isMap = (val: unknown): val is Map<any, any> => {
     return type(val) === '[object Map]';
 };
 
-const isNumber = (value: any): value is number => {
-    return !isNaN(value);
+const isNumber = (value: unknown): value is number => {
+    return typeof value === 'number' && !Number.isNaN(value);
 };
 
 const isObject = (value: unknown): value is Record<PropertyKey, unknown> => {
@@ -66,7 +66,6 @@ export * from './encryption';
 export * from './json';
 export type * from './types';
 export { default as bps } from './bps';
-export { default as camelCase } from './camelCase';
 export { default as chunk } from './chunk';
 export { EMPTY_ARRAY, EMPTY_OBJECT } from './constants';
 export { default as debounce } from './debounce';
@@ -80,4 +79,5 @@ export { default as sleep } from './sleep';
 export { default as slugify } from './slugify';
 export { default as toArray } from './toArray';
 export { default as truncate } from './truncate';
+export { default as ulid } from './ulid';
 export { default as uuid } from './uuid';

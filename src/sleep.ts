@@ -1,7 +1,7 @@
-export default async (ms?: number) => {
+export default (ms?: number) => {
     if (!ms) {
-        return;
+        return Promise.resolve();
     }
 
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise<void>(resolve => setTimeout(resolve, ms));
 };

@@ -25,10 +25,15 @@ export default function omit<T extends Record<PropertyKey, unknown>, K extends k
         return rows as any as Response<T, K>;
     }
 
-    let row: Record<PropertyKey, unknown> = { ...data };
+    let allkeys = Object.keys(data),
+        row: Record<PropertyKey, unknown> = {};
 
-    for (let i = 0; i < keys.length; i++) {
-        delete row[keys[i]];
+    for (let i = 0, n = allkeys.length; i < n; i++) {
+        let key = allkeys[i];
+
+        if (keys.indexOf(key as K) === -1) {
+            row[key] = data[key as keyof typeof data];
+        }
     }
 
     return row as Response<T, K>;

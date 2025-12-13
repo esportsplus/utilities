@@ -1,10 +1,15 @@
 export default <T>(items: T[], size: number) => {
-    if (items.length <= size) {
+    let n = items.length;
+
+    if (n <= size) {
         return [items];
     }
 
-    return Array.from(
-        { length: Math.ceil(items.length / size) },
-        (_, i) => items.slice(i * size, i * size + size)
-    );
+    let chunks: T[][] = [];
+
+    for (let i = 0; i < n; i += size) {
+        chunks.push( items.slice(i, i + size) );
+    }
+
+    return chunks;
 };
