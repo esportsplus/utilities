@@ -34,6 +34,8 @@ type Prettify<T> = {
 
 type Primitive = bigint | boolean | null | number | string | undefined;
 
+type UUID = Brand<string, 'UUID'>;
+
 type UnionRecord<U, V extends Record<string, unknown>> = Prettify<U & { [K in keyof U]?: undefined } & V>;
 
 
@@ -45,5 +47,5 @@ export type {
     NeverAsync, NeverFunction,
     Prettify,
     Primitive,
-    UnionRecord
+    UUID, UnionRecord
 };

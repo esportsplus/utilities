@@ -11,7 +11,7 @@ type Deferred = Readonly<{
 
 // Keys are the values passed to race, values are a record of data containing a
 // set of deferreds and whether the value has settled.
-const wm = new WeakMap<object, { deferreds: Set<Deferred>; settled: boolean }>();
+let wm = new WeakMap<object, { deferreds: Set<Deferred>; settled: boolean }>();
 
 
 // This promise only ever rejects if the signal is aborted. Otherwise it idles forever.

@@ -62,11 +62,15 @@ export {
     isArray, isAsyncFunction, isDate, isFunction, isInstanceOf, isMap, isNumber, isObject, isPromise, isRegExp, isSet, isString, isSymbol,
     noop
 };
+export * from './encryption';
+export * from './json';
+export type * from './types';
 export { default as bps } from './bps';
 export { default as camelCase } from './camelCase';
 export { default as chunk } from './chunk';
 export { EMPTY_ARRAY, EMPTY_OBJECT } from './constants';
 export { default as debounce } from './debounce';
+export { default as hash } from './hash';
 export { default as number } from './number';
 export { default as omit } from './omit';
 export { default as pick } from './pick';
@@ -76,5 +80,4 @@ export { default as sleep } from './sleep';
 export { default as slugify } from './slugify';
 export { default as toArray } from './toArray';
 export { default as truncate } from './truncate';
-export * from './json';
-export type * from './types';
+export { default as uuid } from './uuid';
