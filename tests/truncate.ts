@@ -41,6 +41,12 @@ describe('truncate', () => {
             expect(result).toBe('abc...');
         });
 
+        it('should append ellipsis even for short strings', () => {
+            let result = truncate.end('hi');
+
+            expect(result).toBe('hi...');
+        });
+
     });
 
     describe('start', () => {
@@ -55,6 +61,12 @@ describe('truncate', () => {
             let result = truncate.start('abcdefghijklmnop', 3);
 
             expect(result).toBe('...nop');
+        });
+
+        it('should prepend ellipsis even for short strings', () => {
+            let result = truncate.start('hi');
+
+            expect(result).toBe('...hi');
         });
 
     });

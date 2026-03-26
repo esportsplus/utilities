@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '~/constants';
 import { isArray, isAsyncFunction, isDate, isFunction, isInstanceOf, isMap, isNumber, isObject, isPromise, isRegExp, isSet, isString, isSymbol, noop } from '~/index';
 import { parse, stringify } from '~/json';

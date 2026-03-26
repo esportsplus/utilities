@@ -1,7 +1,7 @@
 export default <T>(items: T[], size: number) => {
     let n = items.length;
 
-    if (n <= size) {
+    if (size <= 0 || n <= size) {
         return [items];
     }
 

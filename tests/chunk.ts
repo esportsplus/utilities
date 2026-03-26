@@ -36,4 +36,10 @@ describe('chunk', () => {
         expect(result).toEqual([[]]);
     });
 
+    it('should return [items] when size is 0', () => {
+        let items = [1, 2, 3];
+
+        expect(chunk(items, 0)).toEqual([items]);
+    });
+
 });

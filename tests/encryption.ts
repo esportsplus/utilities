@@ -86,6 +86,14 @@ describe('encryption', () => {
             expect(encrypted1).not.toBe(encrypted2);
         });
 
+        it('same password produces different ciphertext (random salt/IV)', async () => {
+            let content = 'same content',
+                encrypted1 = await encrypt(content, password),
+                encrypted2 = await encrypt(content, password);
+
+            expect(encrypted1).not.toBe(encrypted2);
+        });
+
     });
 
 
