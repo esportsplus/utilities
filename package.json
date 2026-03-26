@@ -2,7 +2,8 @@
     "author": "ICJR",
     "devDependencies": {
         "@esportsplus/typescript": "^0.9.2",
-        "@types/node": "^25.0.1"
+        "@types/node": "^25.0.1",
+        "vitest": "^4.1.1"
     },
     "main": "build/index.js",
     "name": "@esportsplus/utilities",
@@ -15,7 +16,8 @@
         "build": "tsc && tsc-alias",
         "-": "-",
         "prepare": "pnpm build",
-        "prepublishOnly": "pnpm build"
+        "prepublishOnly": "pnpm build",
+        "test": "vitest run"
     },
     "type": "module",
     "types": "build/index.d.ts",
