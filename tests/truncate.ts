@@ -25,6 +25,13 @@ describe('truncate', () => {
             expect(result).toBe('abc...wxyz');
         });
 
+        it('should return full string at exact boundary (length === prefix + suffix + 3)', () => {
+            // Default prefix=5, suffix=7, so boundary = 15 chars
+            let str = 'abcdefghijklmno'; // exactly 15 chars
+
+            expect(truncate.center(str)).toBe('abcdefghijklmno');
+        });
+
     });
 
     describe('end', () => {

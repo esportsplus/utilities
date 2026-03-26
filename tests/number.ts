@@ -63,6 +63,14 @@ describe('number', () => {
             expect(number.ordinal(101)).toBe('st');
         });
 
+        it('should return "th" for 0', () => {
+            expect(number.ordinal(0)).toBe('th');
+        });
+
+        it('should return "th" for negative numbers', () => {
+            expect(number.ordinal(-1)).toBe('th');
+        });
+
     });
 
 });

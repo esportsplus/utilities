@@ -110,6 +110,74 @@ describe('request', () => {
     });
 
 
+    describe('PUT, PATCH, DELETE', () => {
+
+        it('should JSON.stringify object body and set cors + no-referrer for PUT', async () => {
+            let body = { action: 'update' },
+                response = mockResponse({ updated: true });
+
+            vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response));
+
+            await request('https://example.com/api', {
+                body,
+                method: 'PUT',
+            });
+
+            expect(fetch).toHaveBeenCalledWith('https://example.com/api', expect.objectContaining({
+                body: JSON.stringify(body),
+                method: 'PUT',
+                mode: 'cors',
+                referrerPolicy: 'no-referrer',
+            }));
+
+            vi.restoreAllMocks();
+        });
+
+        it('should JSON.stringify object body and set cors + no-referrer for PATCH', async () => {
+            let body = { field: 'patched' },
+                response = mockResponse({ patched: true });
+
+            vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response));
+
+            await request('https://example.com/api', {
+                body,
+                method: 'PATCH',
+            });
+
+            expect(fetch).toHaveBeenCalledWith('https://example.com/api', expect.objectContaining({
+                body: JSON.stringify(body),
+                method: 'PATCH',
+                mode: 'cors',
+                referrerPolicy: 'no-referrer',
+            }));
+
+            vi.restoreAllMocks();
+        });
+
+        it('should JSON.stringify object body and set cors + no-referrer for DELETE', async () => {
+            let body = { id: 42 },
+                response = mockResponse({ deleted: true });
+
+            vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response));
+
+            await request('https://example.com/api', {
+                body,
+                method: 'DELETE',
+            });
+
+            expect(fetch).toHaveBeenCalledWith('https://example.com/api', expect.objectContaining({
+                body: JSON.stringify(body),
+                method: 'DELETE',
+                mode: 'cors',
+                referrerPolicy: 'no-referrer',
+            }));
+
+            vi.restoreAllMocks();
+        });
+
+    });
+
+
     describe('search params', () => {
 
         it('should append search params to URL', async () => {

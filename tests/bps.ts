@@ -48,6 +48,10 @@ describe('bps', () => {
             expect(bps('100', 500)).toBe(5);
         });
 
+        it('string bps param "500" at 100 returns 5', () => {
+            expect(bps(100, '500')).toBe(5);
+        });
+
     });
 
 
