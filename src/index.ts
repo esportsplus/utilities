@@ -63,7 +63,7 @@ export {
     noop
 };
 export * from './json';
-export { Cipher } from './encryption';
+export type { Cipher } from './encryption';
 export { default as encryption } from './encryption';
 export type * from './types';
 export { default as bps } from './bps';

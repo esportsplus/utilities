@@ -1,9 +1,12 @@
+const MAX_CACHED_KEYS = 64;
+
+
 let decoder = new TextDecoder(),
-    encoder = new TextEncoder(),
-    iterations = 100000;
+    encoder = new TextEncoder();
 
 
-function deriveKey(material: CryptoKey, salt: Uint8Array, usage: 'decrypt' | 'encrypt') {
+
+function deriveKey(iterations: number, material: CryptoKey, salt: Uint8Array, usage: 'decrypt' | 'encrypt') {
     return crypto.subtle.deriveKey(
         { hash: 'SHA-256', iterations, name: 'PBKDF2', salt: new Uint8Array(salt) },
         material,
@@ -39,12 +42,14 @@ function toBase64(buffer: ArrayBuffer | Uint8Array) {
 class Cipher {
     private decryptKeys = new Map<string, CryptoKey>();
     private encryptKey: CryptoKey;
+    private iterations: number;
     private material: CryptoKey;
     private salt: Uint8Array;
 
 
-    constructor(encryptKey: CryptoKey, material: CryptoKey, salt: Uint8Array) {
+    constructor(encryptKey: CryptoKey, iterations: number, material: CryptoKey, salt: Uint8Array) {
         this.encryptKey = encryptKey;
+        this.iterations = iterations;
         this.material = material;
         this.salt = salt;
     }
@@ -62,7 +67,12 @@ class Cipher {
                 key = this.decryptKeys.get(saltB64);
 
             if (!key) {
-                key = await deriveKey(this.material, fromBase64(saltB64), 'decrypt');
+                key = await deriveKey(this.iterations, this.material, fromBase64(saltB64), 'decrypt');
+
+                if (this.decryptKeys.size >= MAX_CACHED_KEYS) {
+                    this.decryptKeys.delete(this.decryptKeys.keys().next().value!);
+                }
+
                 this.decryptKeys.set(saltB64, key);
             }
 
@@ -102,11 +112,11 @@ class Cipher {
 }
 
 
-export default async (password: string) => {
+export default async (password: string, iterations = 100000) => {
     let material = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveKey']),
-    salt = crypto.getRandomValues(new Uint8Array(16)),
-    encryptKey = await deriveKey(material, salt, 'encrypt');
+        salt = crypto.getRandomValues(new Uint8Array(16)),
+        encryptKey = await deriveKey(iterations, material, salt, 'encrypt');
 
-    return new Cipher(encryptKey, material, salt);
+    return new Cipher(encryptKey, iterations, material, salt);
 };
 export type { Cipher };

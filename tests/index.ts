@@ -205,11 +205,11 @@ describe('json', () => {
         expect(parse(stringify(obj))).toEqual(obj);
     });
 
-    it('BigInt.toJSON returns string representation', () => {
+    it('BigInt serializes to string representation', () => {
         let value = BigInt('12345678901234567890');
 
-        expect(value.toJSON()).toBe('12345678901234567890');
         expect(stringify(value)).toBe('"12345678901234567890"');
+        expect(stringify({ id: value })).toBe('{"id":"12345678901234567890"}');
     });
 
 });
