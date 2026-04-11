@@ -62,8 +62,9 @@ export {
     isArray, isAsyncFunction, isDate, isFunction, isInstanceOf, isMap, isNumber, isObject, isPromise, isRegExp, isSet, isString, isSymbol,
     noop
 };
-export * from './encryption';
 export * from './json';
+export { Cipher } from './encryption';
+export { default as encryption } from './encryption';
 export type * from './types';
 export { default as bps } from './bps';
 export { default as chunk } from './chunk';
