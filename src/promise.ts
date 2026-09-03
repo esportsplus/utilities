@@ -25,7 +25,7 @@ function abortablePromise(abortSignal: AbortSignal): Promise<never> {
         else {
             abortSignal.addEventListener('abort', function () {
                 reject(this.reason);
-            });
+            }, { once: true });
         }
     });
 }
