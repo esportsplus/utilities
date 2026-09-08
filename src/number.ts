@@ -10,7 +10,9 @@ const abbreviate = (number: number) => {
         });
     }
 
-    return formatter.format(number);
+    return formatter.formatToParts(number)
+        .map(part => part.type === 'compact' ? part.value.toUpperCase() : part.value)
+        .join('');
 };
 
 const ordinal = (number: number) => {
