@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import omit from '~/omit';
 
@@ -52,6 +52,14 @@ describe('omit', () => {
             result = omit(data, ['c' as keyof typeof data]);
 
         expect(result).toEqual({ a: 1, b: 2 });
+    });
+
+    it('should keep declared keys when the type has an index signature', () => {
+        let data: { a: number, b: string } & Record<string, unknown> = { a: 1, b: 'x', c: true },
+            result = omit(data, ['b']);
+
+        expectTypeOf(result.a).toEqualTypeOf<number>();
+        expect(result).toEqual({ a: 1, c: true });
     });
 
 });

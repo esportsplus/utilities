@@ -3,8 +3,13 @@ import { isArray } from '.';
 
 type Response<T, K extends keyof T> =
     T extends unknown[] | ReadonlyArray<unknown>
-        ? Omit<T[number], K>[]
-        : Omit<T, K>;
+        ? Without<T[number], K>[]
+        : Without<T, K>;
+
+// Key remapping instead of Omit: Omit collapses types with index signatures to the index signature alone
+type Without<T, K extends PropertyKey> = {
+    [P in keyof T as P extends K ? never : P]: T[P];
+};
 
 
 export default function omit<T extends Record<PropertyKey, unknown>, K extends keyof T>(
